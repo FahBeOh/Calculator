@@ -68,21 +68,23 @@
         },
         // Math logic depending on operator
         evaluate: function () {
-            let firstNum = parseInt(this.num1);
-            let secondNum = parseInt(this.num2);
+            const firstNum = parseInt(this.num1);
+            const secondNum = parseInt(this.num2);
 
-            if (this.operator === "+") {
-                this.result = firstNum + secondNum;
+            switch (this.operator) {
+                case "+":
+                    this.result = firstNum + secondNum;
+                    break;
+                case "-":
+                    this.result = firstNum - secondNum;
+                    break;
+                case "*":
+                    this.result = firstNum * secondNum;
+                    break;
+                case "/":
+                    this.result = firstNum / secondNum;
+                    break;
             }
-            else if (this.operator === "-") {
-                this.result = firstNum - secondNum;
-            }
-            else if (this.operator === "*") {
-                this.result = firstNum * secondNum;
-            }
-            else if (this.operator === "/") {
-                this.result = firstNum / secondNum;
-            };
             calc.display.value = calc.result;
             calc.clearValues();
         }
