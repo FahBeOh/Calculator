@@ -1,8 +1,11 @@
 (() => {
-    const calculator = {
-        string: "",
-        input: [""],
-        operators: ["+", "-", "*", "/", "=", "C"],
+    const calc = {
+        num1: "",
+        num2: "",
+        operator: "",
+        result: "",
+        operatorIsChosen: false,
+        isCalculated: false,
         cacheDOM: function () {
             this.button = document.getElementsByClassName("btn");
             this.opButton = document.getElementsByClassName("btn-danger");
@@ -10,44 +13,71 @@
         },
         bindEvents: function () {
             for (i = 0; i < this.button.length; i++) {
-                this.button[i].addEventListener("click", this.update);
+                this.button[i].addEventListener("click", this.render);
             };
         },
         initiate: function () {
             this.cacheDOM();
             this.bindEvents();
-        },
-        update: function () {
-            if (calculator.input.length === 1 && calculator.operators.includes(this.value)) {
-                return
-            }
-            else if (this.value === "=") {
-                calculator.input = [""];
-                calculator.input.push(eval(calculator.string));
-                calculator.render();
-            }
-            else if (this.value === "C") {
-                calculator.clear();
-            }
-            else {
-                calculator.input.push(this.value);
-                console.log(calculator.input);
-                calculator.render();
-            };
+            this.clear()
         },
         render: function () {
-            this.string = this.input.join("");
-            this.display.value = "";
-            this.display.value+=this.string;
-            console.log(this.string);
+            if (this.value === "C") {
+                calc.clear();
+            }
+            else if (this.className === "btn btn-danger" && !calc.operatorIsChosen && calc.num1 !== "") {
+                calc.operatorIsChosen = true;
+                calc.operator = this.value;
+                console.log(calc.operator)
+            }
+            else if (!calc.operatorIsChosen && this.className === "btn btn-primary") {
+                calc.num1 += this.value;
+                calc.display.value = calc.num1;
+                console.log(calc.num1)
+            }
+            else if (calc.operatorIsChosen && this.className === "btn btn-primary") {
+                calc.num2 += this.value;
+                calc.display.value = calc.num2;
+                console.log(calc.num2)
+            }
+            else if (this.value === "=" && calc.num1 !== "" && calc.num2 !== "" && calc.operator !== "")
+                calc.evaluate();
         },
-        clear: function ()  {
-            this.string = "";
-            this.input = [""];
-            this.render();
+        clear: function () {
+            calc.num1 = "";
+            calc.num2 = "";
+            calc.operator = "";
+            calc.operatorIsChosen = false;
+            calc.isCalculated = false
+            calc.display.value = "";
+        },
+        clearValues: function () {
+            calc.num1 = "";
+            calc.num2 = "";
+            calc.operator = "";
+            calc.operatorIsChosen = false;
+            calc.isCalculated = false
+        },
+        evaluate: function () {
+            let firstNum = parseInt(this.num1);
+            let secondNum = parseInt(this.num2);
+
+            if (this.operator === "+") {
+                this.result = firstNum + secondNum;
+            }
+            else if (this.operator === "-") {
+                this.result = firstNum - secondNum;
+            }
+            else if (this.operator === "*") {
+                this.result = firstNum * secondNum;
+            }
+            else if (this.operator === "/") {
+                this.result = firstNum / secondNum;
+            };
+            calc.display.value = calc.result;
+            calc.clearValues();
         }
-    };
-    calculator.initiate();
-    console.log(calculator)
+    }
+    calc.initiate();
 })();
 
