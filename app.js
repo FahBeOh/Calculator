@@ -1,10 +1,11 @@
 (() => {
     const calculator = {
         string: "",
-        input: [],
-        operators: ["+", "-", "*", "/", "="],
+        input: [""],
+        operators: ["+", "-", "*", "/", "=", "C"],
         cacheDOM: function () {
             this.button = document.getElementsByClassName("btn");
+            this.opButton = document.getElementsByClassName("btn-danger");
             this.display = document.getElementById("dis");
         },
         bindEvents: function () {
@@ -17,7 +18,15 @@
             this.bindEvents();
         },
         update: function () {
-            if (this.value === "C") {
+            if (calculator.input.length === 1 && calculator.operators.includes(this.value)) {
+                return
+            }
+            else if (this.value === "=") {
+                calculator.input = [""];
+                calculator.input.push(eval(calculator.string));
+                calculator.render();
+            }
+            else if (this.value === "C") {
                 calculator.clear();
             }
             else {
@@ -34,10 +43,11 @@
         },
         clear: function ()  {
             this.string = "";
-            this.input = [];
+            this.input = [""];
             this.render();
         }
     };
     calculator.initiate();
     console.log(calculator)
 })();
+
