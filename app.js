@@ -34,17 +34,14 @@
             else if (this.className === "btn btn-danger" && !calc.operatorIsChosen && calc.num1 !== "") {
                 calc.operatorIsChosen = true;
                 calc.operator = this.value;
-                console.log(calc.operator)
             }
             else if (!calc.operatorIsChosen && this.className === "btn btn-primary") {
                 calc.num1 += this.value;
                 calc.display.value = calc.num1;
-                console.log(calc.num1)
             }
             else if (calc.operatorIsChosen && this.className === "btn btn-primary") {
                 calc.num2 += this.value;
                 calc.display.value = calc.num2;
-                console.log(calc.num2)
             }
             else if (this.value === "=" && calc.num1 !== "" && calc.num2 !== "" && calc.operator !== "")
                 calc.evaluate();
